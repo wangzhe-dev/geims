@@ -15,13 +15,42 @@
     </view>
   </view>
 
-  <!-- 游戏说明 -->
+  <!-- 游戏说明和统计 -->
   <view class="intro">
     滑动方块合并相同数字，达到<text class="highlight">2048</text>获胜！
   </view>
 
-  <!-- 新游戏按钮 -->
-  <view class="btn-new-game" bindtap="newGame">新游戏</view>
+  <!-- 游戏统计 -->
+  <view class="stats-container">
+    <view class="stat-item">
+      <view class="stat-value">{{moves}}</view>
+      <view class="stat-label">移动次数</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{maxTile}}</view>
+      <view class="stat-label">最大方块</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{totalGames}}</view>
+      <view class="stat-label">总局数</view>
+    </view>
+  </view>
+
+  <!-- 控制按钮组 -->
+  <view class="control-buttons">
+    <view class="btn-control {{canUndo ? '' : 'disabled'}}" bindtap="undoMove">
+      <view class="btn-icon">↶</view>
+      <view class="btn-text">撤销</view>
+    </view>
+    <view class="btn-control btn-primary" bindtap="newGame">
+      <view class="btn-icon">⟳</view>
+      <view class="btn-text">新游戏</view>
+    </view>
+    <view class="btn-control" bindtap="showHelp">
+      <view class="btn-icon">?</view>
+      <view class="btn-text">帮助</view>
+    </view>
+  </view>
 
   <!-- 游戏棋盘 -->
   <view class="game-board"
@@ -47,9 +76,43 @@
   <!-- 游戏结束遮罩 -->
   <view class="game-over-overlay" wx:if="{{gameOver}}">
     <view class="game-over-message">
-      <view class="message-title">{{won ? '恭喜获胜！' : '游戏结束'}}</view>
+      <view class="message-title">{{won ? '🎉 恭喜获胜！' : '游戏结束'}}</view>
       <view class="message-score">得分: {{score}}</view>
-      <view class="btn-restart" bindtap="newGame">再来一局</view>
+      <view class="message-stats">
+        <view class="message-stat-item">移动: {{moves}}步</view>
+        <view class="message-stat-item">最大: {{maxTile}}</view>
+      </view>
+      <view class="btn-group">
+        <view class="btn-restart" bindtap="newGame">再来一局</view>
+        <view class="btn-share" bindtap="shareGame">分享</view>
+      </view>
     </view>
+  </view>
+
+  <!-- 帮助面板 -->
+  <view class="help-overlay" wx:if="{{showHelpPanel}}" bindtap="hideHelp">
+    <view class="help-content" catchtap="preventClose">
+      <view class="help-title">游戏规则</view>
+      <view class="help-text">
+        <view class="help-item">• 向上、下、左、右滑动移动所有方块</view>
+        <view class="help-item">• 相同数字的方块会合并为一个</view>
+        <view class="help-item">• 合并后的数字是两者之和</view>
+        <view class="help-item">• 每次移动后会随机生成新方块</view>
+        <view class="help-item">• 达到2048即为胜利！</view>
+      </view>
+      <view class="help-tips">
+        <view class="tips-title">💡 小技巧</view>
+        <view class="help-item">• 尽量让大数字集中在角落</view>
+        <view class="help-item">• 优先考虑单一方向的移动</view>
+        <view class="help-item">• 留意空格的位置</view>
+      </view>
+      <view class="btn-close" bindtap="hideHelp">我知道了</view>
+    </view>
+  </view>
+
+  <!-- 分数增加动画 -->
+  <view class="score-popup" wx:if="{{scorePopup.show}}"
+        style="left: {{scorePopup.x}}rpx; top: {{scorePopup.y}}rpx;">
+    +{{scorePopup.value}}
   </view>
 </view>
