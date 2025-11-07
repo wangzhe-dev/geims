@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#faf8ef",
+    "navigationBarTitleText": "2048游戏",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#faf8ef"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

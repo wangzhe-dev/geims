@@ -1,0 +1,55 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+  <!-- 顶部标题和分数区域 -->
+  <view class="header">
+    <view class="title">2048</view>
+    <view class="score-container">
+      <view class="score-box">
+        <view class="score-label">分数</view>
+        <view class="score">{{score}}</view>
+      </view>
+      <view class="score-box">
+        <view class="score-label">最高</view>
+        <view class="score">{{bestScore}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 游戏说明 -->
+  <view class="intro">
+    滑动方块合并相同数字，达到<text class="highlight">2048</text>获胜！
+  </view>
+
+  <!-- 新游戏按钮 -->
+  <view class="btn-new-game" bindtap="newGame">新游戏</view>
+
+  <!-- 游戏棋盘 -->
+  <view class="game-board"
+        bindtouchstart="touchStart"
+        bindtouchend="touchEnd">
+    <!-- 背景格子 -->
+    <view class="grid-container">
+      <view class="grid-row" wx:for="{{[0,1,2,3]}}" wx:key="*this">
+        <view class="grid-cell" wx:for="{{[0,1,2,3]}}" wx:key="*this"></view>
+      </view>
+    </view>
+
+    <!-- 数字方块 -->
+    <view class="tile-container">
+      <view class="tile tile-{{item.value}} tile-position-{{item.row}}-{{item.col}} {{item.new ? 'tile-new' : ''}} {{item.merged ? 'tile-merged' : ''}}"
+            wx:for="{{tiles}}"
+            wx:key="id">
+        <view class="tile-inner">{{item.value}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 游戏结束遮罩 -->
+  <view class="game-over-overlay" wx:if="{{gameOver}}">
+    <view class="game-over-message">
+      <view class="message-title">{{won ? '恭喜获胜！' : '游戏结束'}}</view>
+      <view class="message-score">得分: {{score}}</view>
+      <view class="btn-restart" bindtap="newGame">再来一局</view>
+    </view>
+  </view>
+</view>
