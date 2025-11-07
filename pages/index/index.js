@@ -17,6 +17,12 @@ Page({
     }
   },
   
+  bindViewTap() {
+    wx.navigateTo({
+      url: '../logs/logs'
+    })
+  },
+  
   getUserProfile(e) {
     wx.getUserProfile({
       desc: '用于完善会员资料',
